@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конференция туралы пікір</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Конференция сізге ұнады ма?</h2>
+        <form id="feedbackForm">
+            <div class="question">
+                <input type="radio" name="feedback" value="иә" required> Иә<br>
+                <input type="radio" name="feedback" value="жоқ" required> Жоқ<br>
+                <input type="radio" name="feedback" value="өте қатты ұнады" required> Өте қатты ұнады!<br>
+            </div>
+            <div class="question">
+                <label>Пікіріңіз:</label><br>
+                <textarea name="comment" placeholder="Пікіріңізді қалдырыңыз..." required></textarea>
+            </div>
+            <button type="submit">Жауап беру</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let formData = new FormData(event.target);
+            let feedback = formData.get("feedback");
+            let comment = formData.get("comment");
+
+            if (!feedback) {
+                alert("Жауапты таңдаңыз!");
+                return;
+            }
+            
+            let storedFeedback = JSON.parse(localStorage.getItem("conferenceFeedback")) || [];
+            storedFeedback.push({ feedback, comment });
+            localStorage.setItem("conferenceFeedback", JSON.stringify(storedFeedback));
+            
+            window.location.href = "thank_you.html";
+        });
+    </script>
+</body>
+</html>
+
+<!-- thank_you.html -->
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рақмет!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Рақмет! Келесі конференцияда кездескенше!</h2>
+</body>
+</html>
